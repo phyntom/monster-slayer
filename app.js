@@ -12,4 +12,3 @@ new Vue({
          this.monsterHealth = 100;
       },
    },
-});
