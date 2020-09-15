@@ -14,25 +14,14 @@ new Vue({
          this.turns = [];
       },
       attack: function () {
-         let damage = this.computeDamage(3, 10);
-         console.log(damage);
-         this.monsterHealth -= damage;
-         this.turns.unshift({
-            isPlayer: true,
-            text: `Player hits Monster for ` + damage,
-         });
+         this.playerAttacks(3, 10, false);
          if (this.checkWinner()) {
             return;
          }
          this.monsterAttacks();
       },
       heavyAttack: function () {
-         let damage = this.computeDamage(10, 20);
-         this.monsterHealth -= damage;
-         this.turns.unshift({
-            isPlayer: true,
-            text: `Player hits Monster hard for ` + damage,
-         });
+         this.playerAttacks(10, 20, true);
          if (this.checkWinner()) {
             return;
          }
@@ -52,8 +41,6 @@ new Vue({
       },
       giveUp: function () {
          this.gameIsRunning = false;
-         // this.playerHealth = 100;
-         // this.monsterHealth = 100;
       },
       monsterAttacks: function () {
          let damage = this.computeDamage(5, 12);
@@ -64,6 +51,18 @@ new Vue({
          });
          this.checkWinner();
       },
+      playerAttacks: function (min, max, isHeavy) {
+         let damage = this.computeDamage(min, max);
+         this.monsterHealth -= damage;
+         let text = isHeavy
+            ? `Player hits Monster hard for ` + damage
+            : `Player hits Monster for ` + damage;
+         this.turns.unshift({
+            isPlayer: true,
+            text,
+         });
+      },
+
       computeDamage: function (min, max) {
          let damage = Math.max(Math.floor(Math.random() * max + 1), min);
          return damage;
