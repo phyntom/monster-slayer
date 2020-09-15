@@ -43,11 +43,12 @@
                 <button id="give-up" @click="giveUp">GIVE UP</button>
             </div>
         </section>
-        <section class="row log">
+        <section class="row log" v-if="turns.length > 0">
             <div class="small-12 columns">
-                <ul>
-                    <li>
-
+                <ul class="">
+                    <li v-for="item in turns"
+                        v-bind:class="{'player-turn' : item.isPlayer,'monster-turn': !item.isPlayer}">
+                        {{ item.text }}
                     </li>
                 </ul>
             </div>
